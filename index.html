@@ -4,6 +4,7 @@
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.4/lodash.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/4.3.6/papaparse.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.4/Chart.bundle.min.js"></script>
   </head>
   
   <body>
@@ -16,6 +17,8 @@
        <button type="submit" id="submit" class="btn btn-primary">Submit</button>
        </div>
       </form>
-    <div id="myDiv" style="width: 480px; height: 400px;"><!-- Plotly chart will be drawn inside this DIV --></div>
+    <div id="myDiv" style="width: 480px; height: 400px;"></div>
+    <canvas id="myChart" width="400" height="400" style="width:400px;height:400px;"></canvas>
+    
     <script src="main.js"></script>
   </body>

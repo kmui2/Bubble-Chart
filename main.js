@@ -5,6 +5,7 @@ $('#submit').on("click",function(e){
         config: {
             delimiter: ",",
             header: true,
+            dynamicTyping: true,
             complete: plotBubbleChart,
         },
         before: function(file, inputElem)
@@ -108,4 +109,114 @@ function plotBubbleChart(results) {
       };
       
       Plotly.newPlot('myDiv', data, layout);
+
+    let maleDataAbove = [];
+    let maleDataBelow = [];
+    
+    _.map(maleData, (pt) => {
+        if (pt.mean_survived >= 0.5)
+            maleDataAbove.push(pt);
+        else if (pt.mean_survived < 0.5)
+            maleDataBelow.push(pt);
+    });
+
+    let femaleDataAbove = [];
+    let femaleDataBelow = [];
+    
+    _.map(femaleData, (pt) => {
+        if (pt.mean_survived >= 0.5)
+            femaleDataAbove.push(pt);
+        else if (pt.mean_survived < 0.5)
+            femaleDataBelow.push(pt);
+    });
+
+    var ctx = $("#myChart");
+    let chartData = {
+        datasets: [{
+            label: ['Female <0.5'],
+            data: _.map(femaleDataBelow, (pt) => {
+                let arr = pt.ageinterval10.split(' ');
+                let start = parseInt(arr[0]);
+                let end = parseInt(arr[2]);
+                let x = (start+end+1)/2;
+                return {
+                    x: x,
+                    y: 1,
+                    r: pt.total_survived
+                }
+            }),
+            backgroundColor: "#FF9966"
+        },
+        {
+            label: ['Female >=0.5'],
+            data: _.map(femaleDataAbove, (pt) => {
+                let arr = pt.ageinterval10.split(' ');
+                let start = parseInt(arr[0]);
+                let end = parseInt(arr[2]);
+                let x = (start+end+1)/2;
+                return {
+                    x: x,
+                    y: 1,
+                    r: pt.total_survived
+                }
+            }),
+            backgroundColor: "#87CEFA"
+        },
+        {
+            label: ['Male <0.5'],
+            data: _.map(maleDataBelow, (pt) => {
+                let arr = pt.ageinterval10.split(' ');
+                let start = parseInt(arr[0]);
+                let end = parseInt(arr[2]);
+                let x = (start+end+1)/2;
+                return {
+                    x: x,
+                    y: 0,
+                    r: pt.total_survived
+                }
+            }),
+            backgroundColor: "#FF9966"
+        },
+        {
+            label: ['Male >=0.5'],
+            data: _.map(maleDataAbove, (pt) => {
+                let arr = pt.ageinterval10.split(' ');
+                let start = parseInt(arr[0]);
+                let end = parseInt(arr[2]);
+                let x = (start+end+1)/2;
+                return {
+                    x: x,
+                    y: 0,
+                    r: pt.total_survived
+                }
+            }),
+            backgroundColor: "#87CEFA"
+        }]
+    }
+    console.log(chartData);
+    // For a bubble chart
+    var myBubbleChart = new Chart(ctx,{
+        type: 'bubble',
+        data:chartData,
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        min: -1,
+                        max: 3,
+                        // Include a dollar sign in the ticks
+                        callback: function(value, index, values) {
+                            if (value == 0)
+                                return 'Male';
+                            if (value == 1)
+                                return 'Female'
+                        }
+                    }
+                }]
+            },
+            responsive: true,
+            maintainAspectRatio: false
+        }
+    });
+
 }
