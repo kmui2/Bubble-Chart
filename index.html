@@ -1,0 +1,21 @@
+<head>
+    <!-- Plotly.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.4/lodash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/4.3.6/papaparse.min.js"></script>
+  </head>
+  
+  <body>
+    <form class="form-inline">
+      <div class="form-group">
+        <label for="files">Upload a CSV formatted file:</label>
+        <input type="file" id="files"  class="form-control" accept=".csv" required />
+      </div>
+      <div class="form-group">
+       <button type="submit" id="submit" class="btn btn-primary">Submit</button>
+       </div>
+      </form>
+    <div id="myDiv" style="width: 480px; height: 400px;"><!-- Plotly chart will be drawn inside this DIV --></div>
+    <script src="main.js"></script>
+  </body>
